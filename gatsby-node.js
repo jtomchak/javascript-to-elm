@@ -50,11 +50,13 @@ exports.createPages = ({ graphql, actions }) => {
         allWordpressWpPodcast {
           edges {
             node {
+              id
               title
               excerpt
               content
               date
               status
+              slug
               dateFormatted: date(formatString: "MMMM DD, YYYY")
               template
               author {
@@ -92,7 +94,11 @@ exports.createPages = ({ graphql, actions }) => {
         reject(result.errors)
       }
       // Access query results via object destructuring
-      const { allWordpressPage, allWordpressPost } = result.data
+      const {
+        allWordpressPage,
+        allWordpressPost,
+        allWordpressWpPodcast,
+      } = result.data
 
       // Create Page pages.
       // We want to create a detailed page for each page node.
@@ -110,6 +116,29 @@ exports.createPages = ({ graphql, actions }) => {
           // can query data specific to each page.
           path: edge.node.slug,
           component: slash(pageTemplate),
+          context: {
+            id: edge.node.id,
+          },
+        })
+      })
+
+      // We want to create a detailed page for each
+      // post node. We'll just use the WordPress Slug for the slug.
+      // The Post ID is prefixed with 'POST_'
+      allWordpressPost.edges.forEach(edge => {
+        createPage({
+          path: `blog/${edge.node.slug}/`,
+          component: slash(postTemplate),
+          context: {
+            id: edge.node.id,
+          },
+        })
+      })
+
+      allWordpressWpPodcast.edges.forEach(edge => {
+        createPage({
+          path: `episodes/${edge.node.slug}/`,
+          component: slash(postTemplate),
           context: {
             id: edge.node.id,
           },
