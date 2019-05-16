@@ -6,7 +6,7 @@ require('dotenv').config({
 
 module.exports = {
   siteMetadata: {
-    url: 'https://jstoelm.com',
+    siteUrl: 'https://jstoelm.com',
     title: 'JavaScript To Elm',
     subtitle:
       'A show about learning Elm, Functional Programming, and generally leveling up as a JS developer.',
@@ -139,7 +139,7 @@ module.exports = {
           {
             site {
               siteMetadata {
-                site_url: url
+                siteUrl: url
                 title
                 description: subtitle
               }
@@ -227,7 +227,7 @@ module.exports = {
             {
               site {
                 siteMetadata {
-                  url
+                  siteUrl
                 }
               }
               allSitePage(
