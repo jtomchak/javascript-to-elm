@@ -5,6 +5,7 @@ import Layout from '../components/Layout'
 import PostTemplateDetails from '../components/PostTemplateDetails'
 
 class PostTemplate extends React.Component {
+  constructor() {}
   render() {
     const { title, subtitle } = this.props.data.site.siteMetadata
     const post = this.props.data.markdownRemark
