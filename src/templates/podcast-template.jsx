@@ -2,8 +2,9 @@ import React from 'react'
 import Helmet from 'react-helmet'
 import { graphql } from 'gatsby'
 import Layout from '../components/Layout'
+import EpisodeTemplateDetails from '../components/Episode'
 
-class EpisodeTemplate extends React.Component {
+class PodcastTemplate extends React.Component {
   render() {
     const { title, subtitle } = this.props.data.site.siteMetadata
     const episode = this.props.data.wordpressWpPodcast
@@ -17,16 +18,17 @@ class EpisodeTemplate extends React.Component {
             <title>{`${episodeTitle} - ${title}`}</title>
             <meta name="description" content={summary} />
           </Helmet>
+          <EpisodeTemplateDetails {...this.props} />
         </div>
       </Layout>
     )
   }
 }
 
-export default EpisodeTemplate
+export default PodcastTemplate
 
 export const epiodeQuery = graphql`
-  query EpisodeBySlug($slug: String!) {
+  query PodcastBySlug($slug: String!) {
     site {
       siteMetadata {
         title
