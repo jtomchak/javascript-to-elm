@@ -3,6 +3,7 @@ import Helmet from 'react-helmet'
 import { graphql } from 'gatsby'
 import Layout from '../components/Layout'
 import Post from '../components/Post'
+import Podcast from '../components/Podcast'
 import Sidebar from '../components/Sidebar'
 
 class IndexRoute extends React.Component {
@@ -12,6 +13,10 @@ class IndexRoute extends React.Component {
     const posts = this.props.data.allMarkdownRemark.edges
     posts.forEach(post => {
       items.push(<Post data={post} key={post.node.fields.slug} />)
+    })
+    const podcasts = this.props.data.allWordpressWpPodcast.edges
+    podcasts.forEach(podcast => {
+      items.push(<Podcast data={podcast} key={podcast.node.slug} />)
     })
 
     return (
@@ -52,6 +57,36 @@ export const pageQuery = graphql`
           github
           rss
           vk
+        }
+      }
+    }
+    allWordpressWpPodcast(
+      limit: 1000
+      filter: { status: { eq: "publish" } }
+      sort: { order: DESC, fields: [date] }
+    ) {
+      edges {
+        node {
+          title
+          slug
+          id
+          excerpt
+          content
+          date
+          status
+          dateFormatted: date(formatString: "MMMM DD, YYYY")
+          template
+          author {
+            id
+            name
+          }
+          acf {
+            audiourl
+            episode_number
+            explicit
+            audio_length
+            category
+          }
         }
       }
     }

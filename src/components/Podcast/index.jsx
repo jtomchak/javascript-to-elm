@@ -5,13 +5,7 @@ import './style.scss'
 
 class Episode extends React.Component {
   render() {
-    const {
-      title,
-      date,
-      slug,
-      excerpt,
-      acf,
-    } = this.props.data.wordpressWpPodcast
+    const { title, date, slug, excerpt, acf } = this.props.data.node
     // const { slug, categorySlug } = this.props.data.node.fields;
 
     return (

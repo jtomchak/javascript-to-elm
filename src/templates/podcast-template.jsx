@@ -2,7 +2,7 @@ import React from 'react'
 import Helmet from 'react-helmet'
 import { graphql } from 'gatsby'
 import Layout from '../components/Layout'
-import EpisodeTemplateDetails from '../components/Episode'
+import Podcast from '../components/Podcast'
 
 class PodcastTemplate extends React.Component {
   render() {
@@ -18,7 +18,7 @@ class PodcastTemplate extends React.Component {
             <title>{`${episodeTitle} - ${title}`}</title>
             <meta name="description" content={summary} />
           </Helmet>
-          <EpisodeTemplateDetails {...this.props} />
+          <Podcast {...this.props} />
         </div>
       </Layout>
     )
