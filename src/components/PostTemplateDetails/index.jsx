@@ -1,19 +1,17 @@
 import React from 'react'
 import { Link } from 'gatsby'
-import moment from 'moment'
-import Disqus from '../Disqus/Disqus'
 import './style.scss'
 
 class PostTemplateDetails extends React.Component {
   render() {
     const { subtitle, author } = this.props.data.site.siteMetadata
-    const post = this.props.data.markdownRemark
-    const tags = post.fields.tagSlugs
+    const post = this.props.data.wordpressPost
+    const tags = post.tags.slug
 
     const homeBlock = (
       <div>
         <Link className="post-single__home-button" to="/">
-          All Articles
+          All Posts
         </Link>
       </div>
     )
@@ -25,20 +23,11 @@ class PostTemplateDetails extends React.Component {
             tags.map((tag, i) => (
               <li className="post-single__tags-list-item" key={tag}>
                 <Link to={tag} className="post-single__tags-list-item-link">
-                  {post.frontmatter.tags[i]}
+                  {post.tags[i]}
                 </Link>
               </li>
             ))}
         </ul>
-      </div>
-    )
-
-    const commentsBlock = (
-      <div>
-        <Disqus
-          postNode={post}
-          siteMetadata={this.props.data.site.siteMetadata}
-        />
       </div>
     )
 
@@ -47,16 +36,14 @@ class PostTemplateDetails extends React.Component {
         {homeBlock}
         <div className="post-single">
           <div className="post-single__inner">
-            <h1 className="post-single__title">{post.frontmatter.title}</h1>
+            <h1 className="post-single__title">{post.title}</h1>
             <div
               className="post-single__body"
               /* eslint-disable-next-line react/no-danger */
-              dangerouslySetInnerHTML={{ __html: post.html }}
+              dangerouslySetInnerHTML={{ __html: post.content }}
             />
             <div className="post-single__date">
-              <em>
-                Published {moment(post.frontmatter.date).format('D MMM YYYY')}
-              </em>
+              <em>Published {post.dataFormatted}</em>
             </div>
           </div>
           <div className="post-single__footer">
@@ -72,7 +59,6 @@ class PostTemplateDetails extends React.Component {
                 <br /> <strong>{author.name}</strong> on Twitter
               </a>
             </p>
-            {commentsBlock}
           </div>
         </div>
       </div>

@@ -7,16 +7,15 @@ import PostTemplateDetails from '../components/PostTemplateDetails'
 class PostTemplate extends React.Component {
   render() {
     const { title, subtitle } = this.props.data.site.siteMetadata
-    const post = this.props.data.markdownRemark
-    const { title: postTitle, description: postDescription } = post.frontmatter
-    const description = postDescription !== null ? postDescription : subtitle
+    const post = this.props.data.wordpressPost
+    const { title: postTitle, excerpt: postExcerpt } = post
 
     return (
       <Layout>
         <div>
           <Helmet>
             <title>{`${postTitle} - ${title}`}</title>
-            <meta name="description" content={description} />
+            <meta name="description" content={postExcerpt} />
           </Helmet>
           <PostTemplateDetails {...this.props} />
         </div>
@@ -42,18 +41,15 @@ export const pageQuery = graphql`
         siteUrl
       }
     }
-    markdownRemark(fields: { slug: { eq: $slug } }) {
+    wordpressPost(slug: { eq: $slug }) {
       id
-      html
-      fields {
-        tagSlugs
-        slug
-      }
-      frontmatter {
-        title
-        tags
-        date
-        description
+      title
+      content
+      excerpt
+      date
+      dataFormatted: date(formatString: "MMMM DD, YYYY")
+      tags {
+        name
       }
     }
   }

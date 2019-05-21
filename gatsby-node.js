@@ -84,6 +84,10 @@ exports.createPages = ({ graphql, actions }) => {
               date
               modified
               dateFormatted: date(formatString: "MMMM DD, YYYY")
+              tags {
+                name
+                slug
+              }
             }
           }
         }
@@ -126,15 +130,15 @@ exports.createPages = ({ graphql, actions }) => {
       // We want to create a detailed page for each
       // post node. We'll just use the WordPress Slug for the slug.
       // The Post ID is prefixed with 'POST_'
-      // allWordpressPost.edges.forEach(edge => {
-      //   createPage({
-      //     path: `blog/${edge.node.slug}/`,
-      //     component: slash(postTemplate),
-      //     context: {
-      //       slug: edge.node.slug,
-      //     },
-      //   })
-      // })
+      allWordpressPost.edges.forEach(edge => {
+        createPage({
+          path: `blog/${edge.node.slug}/`,
+          component: slash(postTemplate),
+          context: {
+            slug: edge.node.slug,
+          },
+        })
+      })
 
       allWordpressWpPodcast.edges.forEach(edge => {
         createPage({
