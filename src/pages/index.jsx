@@ -84,7 +84,6 @@ export const pageQuery = graphql`
             audiourl
             episode_number
             explicit
-            audio_length
             category
           }
         }

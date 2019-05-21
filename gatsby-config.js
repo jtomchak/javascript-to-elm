@@ -1,8 +1,6 @@
 const lost = require('lost')
 const pxtorem = require('postcss-pxtorem')
-require('dotenv').config({
-  path: `.env.${process.env.NODE_ENV}`,
-})
+require('dotenv').config()
 
 module.exports = {
   siteMetadata: {
