@@ -29,6 +29,7 @@ class Episode extends React.Component {
         </audio>
         <p
           className="post__description"
+          /* eslint-disable-next-line react/no-danger */
           dangerouslySetInnerHTML={{ __html: excerpt }}
         />
         <Link className="post__readmore" to={`/episodes/${slug}`}>
