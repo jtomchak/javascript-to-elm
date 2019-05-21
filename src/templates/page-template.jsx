@@ -7,14 +7,16 @@ import PageTemplateDetails from '../components/PageTemplateDetails'
 class PageTemplate extends React.Component {
   render() {
     const { title, subtitle } = this.props.data.site.siteMetadata
+    const { title: pageTitle } = this.props.data.wordpressPage
 
     return (
       <Layout>
         <div>
           <Helmet>
-            {/* <title>{`${pageTitle} - ${title}`}</title> */}
+            <title>{`${pageTitle} - ${title}`}</title>
             <meta name="description" content={'description'} />
           </Helmet>
+          {pageTitle}
         </div>
       </Layout>
     )
@@ -45,19 +47,15 @@ export const pageQuery = graphql`
         }
       }
     }
-    allWordpressPage(filter: { slug: { eq: $slug } }) {
-      edges {
-        node {
-          id
-          title
-          content
-          excerpt
-          date
-          modified
-          slug
-          status
-        }
-      }
+    wordpressPage(slug: { eq: $slug }) {
+      id
+      title
+      content
+      excerpt
+      date
+      modified
+      slug
+      status
     }
   }
 `
