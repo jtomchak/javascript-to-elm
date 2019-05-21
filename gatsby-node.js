@@ -96,7 +96,7 @@ exports.createPages = ({ graphql, actions }) => {
       }
       // Access query results via object destructuring
       const {
-        // allWordpressPage,
+        allWordpressPage,
         allWordpressPost,
         allWordpressWpPodcast,
       } = result.data
@@ -106,35 +106,35 @@ exports.createPages = ({ graphql, actions }) => {
       // The path field contains the relative original WordPress link
       // and we use it for the slug to preserve url structure.
       // The Page ID is prefixed with 'PAGE_'
-      // allWordpressPage.edges.forEach(edge => {
-      //   // Gatsby uses Redux to manage its internal state.
-      //   // Plugins and sites can use functions like "createPage"
-      //   // to interact with Gatsby.
-      //   createPage({
-      //     // Each page is required to have a `path` as well
-      //     // as a template component. The `context` is
-      //     // optional but is often necessary so the template
-      //     // can query data specific to each page.
-      //     path: edge.node.slug,
-      //     component: slash(pageTemplate),
-      //     context: {
-      //       slug: edge.node.slug,
-      //     },
-      //   })
-      // })
-
-      // We want to create a detailed page for each
-      // post node. We'll just use the WordPress Slug for the slug.
-      // The Post ID is prefixed with 'POST_'
-      allWordpressPost.edges.forEach(edge => {
+      allWordpressPage.edges.forEach(edge => {
+        // Gatsby uses Redux to manage its internal state.
+        // Plugins and sites can use functions like "createPage"
+        // to interact with Gatsby.
         createPage({
-          path: `blog/${edge.node.slug}/`,
-          component: slash(postTemplate),
+          // Each page is required to have a `path` as well
+          // as a template component. The `context` is
+          // optional but is often necessary so the template
+          // can query data specific to each page.
+          path: edge.node.slug,
+          component: slash(pageTemplate),
           context: {
             slug: edge.node.slug,
           },
         })
       })
+
+      // We want to create a detailed page for each
+      // post node. We'll just use the WordPress Slug for the slug.
+      // The Post ID is prefixed with 'POST_'
+      // allWordpressPost.edges.forEach(edge => {
+      //   createPage({
+      //     path: `blog/${edge.node.slug}/`,
+      //     component: slash(postTemplate),
+      //     context: {
+      //       slug: edge.node.slug,
+      //     },
+      //   })
+      // })
 
       allWordpressWpPodcast.edges.forEach(edge => {
         createPage({
@@ -144,52 +144,6 @@ exports.createPages = ({ graphql, actions }) => {
             slug: edge.node.slug,
           },
         })
-      })
-
-      _.each(result.data.allMarkdownRemark.edges, edge => {
-        if (_.get(edge, 'node.frontmatter.layout') === 'page') {
-          createPage({
-            path: edge.node.fields.slug,
-            component: slash(pageTemplate),
-            context: { slug: edge.node.fields.slug },
-          })
-        } else if (_.get(edge, 'node.frontmatter.layout') === 'post') {
-          createPage({
-            path: edge.node.fields.slug,
-            component: slash(postTemplate),
-            context: { slug: edge.node.fields.slug },
-          })
-
-          let tags = []
-          if (_.get(edge, 'node.frontmatter.tags')) {
-            tags = tags.concat(edge.node.frontmatter.tags)
-          }
-
-          tags = _.uniq(tags)
-          _.each(tags, tag => {
-            const tagPath = `/tags/${_.kebabCase(tag)}/`
-            createPage({
-              path: tagPath,
-              component: tagTemplate,
-              context: { tag },
-            })
-          })
-
-          let categories = []
-          if (_.get(edge, 'node.frontmatter.category')) {
-            categories = categories.concat(edge.node.frontmatter.category)
-          }
-
-          categories = _.uniq(categories)
-          _.each(categories, category => {
-            const categoryPath = `/categories/${_.kebabCase(category)}/`
-            createPage({
-              path: categoryPath,
-              component: categoryTemplate,
-              context: { category },
-            })
-          })
-        }
       })
 
       resolve()

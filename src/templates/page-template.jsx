@@ -7,18 +7,14 @@ import PageTemplateDetails from '../components/PageTemplateDetails'
 class PageTemplate extends React.Component {
   render() {
     const { title, subtitle } = this.props.data.site.siteMetadata
-    const page = this.props.data.markdownRemark
-    const { title: pageTitle, description: pageDescription } = page.frontmatter
-    const description = pageDescription !== null ? pageDescription : subtitle
 
     return (
       <Layout>
         <div>
           <Helmet>
-            <title>{`${pageTitle} - ${title}`}</title>
-            <meta name="description" content={description} />
+            {/* <title>{`${pageTitle} - ${title}`}</title> */}
+            <meta name="description" content={'description'} />
           </Helmet>
-          <PageTemplateDetails {...this.props} />
         </div>
       </Layout>
     )
@@ -49,13 +45,18 @@ export const pageQuery = graphql`
         }
       }
     }
-    markdownRemark(fields: { slug: { eq: $slug } }) {
-      id
-      html
-      frontmatter {
-        title
-        date
-        description
+    allWordpressPage(filter: { slug: { eq: $slug } }) {
+      edges {
+        node {
+          id
+          title
+          content
+          excerpt
+          date
+          modified
+          slug
+          status
+        }
       }
     }
   }
