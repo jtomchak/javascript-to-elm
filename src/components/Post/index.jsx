@@ -27,6 +27,7 @@ class Post extends React.Component {
         </h2>
         <div
           className="post__description"
+          /* eslint-disable-next-line react/no-danger */
           dangerouslySetInnerHTML={{ __html: excerpt }}
         />
         <Link className="post__readmore" to={`/blog/${slug}`}>
